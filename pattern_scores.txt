@@ -1,0 +1,9 @@
+4_in_a_row_2_open = 100000
+4_in_a_row_1_open = 1000
+3_in_a_row_2_open = 500
+3_in_a_row_1_open = 50
+2_in_a_row_2_open = 10
+2_in_a_row_1_open = 1
+bonus_3x2open_double = 20000
+bonus_3x2open_4x1open = 10000
+bonus_4x1open_double = 100000

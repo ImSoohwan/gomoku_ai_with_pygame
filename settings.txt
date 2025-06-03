@@ -1,0 +1,6 @@
+sound_bgm = 5
+sound_effect = 5
+max_depth = 3
+search_range = 1
+attack_weight = 3
+defense_weight = 7
