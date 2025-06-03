@@ -1,6 +1,7 @@
 import pygame
 from utils.path_manager import *
 from utils.setting_manager import load_settings_from_file
+from utils.setting_manager import *
 
 #bgm 출력
 def play_bgm(bgm, is_bgm=True):
@@ -25,3 +26,8 @@ def get_icon():
     icon_path = get_resource_path('images', 'logo.png')
     icon = pygame.image.load(icon_path)
     return icon
+
+# bgm 소리 업데이트
+def update_bgm_sound():
+    volume = get_settings_by_id("sound_bgm")
+    pygame.mixer.music.set_volume(0.1 * volume)
