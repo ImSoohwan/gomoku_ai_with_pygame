@@ -36,8 +36,6 @@ def start_ai_thread(board, current, opponent):
     def worker():
         global ai_move_result, ai_thinking, current_player
         ai_move_result = get_optimal_move(board, current, opponent, True, 1, max_depth=settings.get("max_depth", 3), search_range=settings.get("search_range", 1))
-        # current_player = "O" if current_player == "X" else "X"
-        # ai_thinking = False
 
     threading.Thread(target=worker, daemon=True).start()
 
@@ -101,11 +99,14 @@ def player_vs_ai(frame, screen, mouse_pos, mouse_clicked, just_switched_screen, 
                 ai_thinking = False
                 ai_move_result = None
                 play_bgm("stone.mp3", False)
+                draw_grid(screen)
+                draw_stones(screen)
+                pygame.display.flip()
+                return
             else:
                 print(f"[Error Log] {ai_move_result} {ai_thinking}")
                 is_error = True #먼가 이부분에 심각한 문제가 있음==================
-
-        if not just_switched_screen:
+        elif not just_switched_screen:
             offset = abs(int(math.sin(frame * 0.04) * 6))
             ai_text = "AI가 고민중" + ("." * offset)
             draw_text(screen, "나의 차례!" if current_player == "O" else ai_text, WIDTH/2, 530, get_font("Galmuri11-Bold.ttf", 20), center=True)
@@ -120,14 +121,13 @@ def player_vs_ai(frame, screen, mouse_pos, mouse_clicked, just_switched_screen, 
                             board = newBoard
                             play_bgm("stone.mp3", False)
                             current_player = 'O' if current_player == 'X' else 'X'
-                elif current_player == "X" and not ai_thinking:
-                    newBoard = copy.deepcopy(board)
-                    start_ai_thread(newBoard, 'X', 'O')
+            elif current_player == "X" and not ai_thinking:
+                newBoard = copy.deepcopy(board)
+                start_ai_thread(newBoard, 'X', 'O')
     else:
         winner_text = "Player 승리!! 대단해요!" if winner == "O" else "AI 승리!!"
         draw_text(screen, winner_text, WIDTH/2, 530, get_font("Galmuri11-Bold.ttf", 20), center=True)
         
-
     # 2. 격자 그리기
     draw_grid(screen)
     # 3. 돌 그리기
@@ -139,6 +139,8 @@ def player_vs_ai(frame, screen, mouse_pos, mouse_clicked, just_switched_screen, 
         pygame.mixer.music.stop()
         bgm_playing = False
         switch_screen_func("main")
+    
+    pygame.display.flip()
 
 def ai_vs_ai(frame, screen, mouse_pos, mouse_clicked, just_switched_screen, switch_screen_func):
     global is_error,ai_last_move, ai_first_move, board, current_player, ai_move_result, ai_first_move, bgm_playing, ai_thinking
