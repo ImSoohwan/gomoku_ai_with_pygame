@@ -5,7 +5,7 @@ from screens.game_screen import game_screen
 from screens.settings_screen import settings_screen
 from utils.setting_manager import *
 from game_functions import *
-from utils.asset_manager import get_icon
+from utils.asset_manager import *
 
 SIZE = WIDTH, HEIGHT = (720, 540)
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
@@ -17,7 +17,7 @@ screen = pygame.display.set_mode(SIZE)
 pygame.display.set_caption("GOMOKU AI   by.soohwan")
 clock = pygame.time.Clock()
 running = True
-current_screen = "main"
+current_screen = "init"
 just_switched_screen = False
 frame = 0
 mouse_pressed = False
@@ -35,9 +35,11 @@ def switch_screen(screen):
 
 while running:
     mouse_pos = pygame.mouse.get_pos()
-    # mouse_pressed = pygame.mouse.get_pressed()[0]
 
-    if current_screen == "main":
+    if current_screen == "init":
+        update_bgm_sound()
+        current_screen = "main"
+    elif current_screen == "main":
         main_screen(screen=screen, frame=frame, mouse_pressed=mouse_pressed, switch_screen_func=switch_screen)
     elif current_screen == "game":
         game_screen(frame, "player_vs_ai", screen, mouse_pos=mouse_pos, mouse_clicked=mouse_pressed, just_switched_screen=just_switched_screen, switch_screen_func=switch_screen)
